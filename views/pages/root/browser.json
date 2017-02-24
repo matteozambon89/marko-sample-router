@@ -1,0 +1,10 @@
+{
+	"dependencies": [
+		"require: jquery",
+		"require: page",
+		"require: pace-js/themes/black/pace-theme-flat-top.css",
+		"require: pace-js",
+		// App
+		"require-run: ./js/app.js"
+	]
+}
