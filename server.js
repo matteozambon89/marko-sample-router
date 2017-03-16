@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-02-14 23:21:33
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-02-23 23:13:54
+* @Last Modified time: 2017-03-15 22:46:03
 */
 
 'use strict'
@@ -57,22 +57,26 @@ for(const r in config.routes) {
   /**
    * Allow method - route - callback
    * @param   {string}           method   HTTP Method or 'use'
-   * @param   {string}           route    Route path
+   * @param   {string}           path     Route path
    * @param   {function}         callback Callback for Route
    */
-  if(route.route && route.callback) {
-    app[route.method](route.route, route.callback)
+  if(route.path && route.callback) {
+    console.log('route => ' + route.method + ' ' + route.path + ' => callback')
+
+    app[route.method](route.path, route.callback)
   }
   /**
    * Allow method - route - page
    * @param   {string}           method   HTTP Method or 'use'
-   * @param   {string}           route    Route path
+   * @param   {string}           path     Route path
    * @param   {string}           page     Page name
    * @param   {object}           params   Parameters object or empty object
    */
-  else if(route.route && route.page) {
-    app[route.method](route.route, (req, res) => {
-      const templatePath = config.dirs.pages + '/' + route.page + '/template.marko'
+  else if(route.path && route.page) {
+    console.log('route => ' + route.method + ' ' + route.path + ' => ' + route.page)
+
+    app[route.method](route.path, (req, res) => {
+      const templatePath = config.dirs.pages + '/' + route.page + '/index.marko'
       const template = require(templatePath)
 
       route.params = route.params || {}
@@ -87,7 +91,10 @@ for(const r in config.routes) {
    * @param   {function}          middleware   Express Middleware
    */
   else if(route.middleware) {
-    app.use(route.middleware)
+    const middleware = config.middlewares[route.middleware]
+
+    console.log('middleware => ' + route.middleware + ' => callback')
+    app.use(middleware)
   }
 }
 

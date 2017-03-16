@@ -1,10 +1,15 @@
 {
 	"dependencies": [
+		// jQuery
 		"require: jquery",
-		"require: page",
+		// paceJS
 		"require: pace-js/themes/black/pace-theme-flat-top.css",
 		"require: pace-js",
-		// App
-		"require-run: ./js/app.js"
+		"require-run: ./assets/js/pace.js",
+		// Components
+		"~/views/components/my-header/index.marko",
+		"~/views/components/my-footer/index.marko",
+		// Self - Components
+		"./components/root-app/index.marko"
 	]
 }
