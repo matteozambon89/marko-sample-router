@@ -1,5 +1,13 @@
-<div class="page-2">
+<div>
 	<h1>Page 2</h1>
+	<div>
+		<div>
+			<strong>name:</strong> ${state.name}
+		</div>
+		<div>
+			<strong>surname:</strong> <input type="text" key="inputSurname" value=state.surname on-blur('saveSurname') on-change('saveSurname') />
+		</div>
+	</div>
 	<div>
 		<button type="button" onClick("handlePage1Click")>Page 1</button>
 		<button type="button" disabled>Page 2</button>

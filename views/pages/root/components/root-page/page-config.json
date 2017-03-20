@@ -1,0 +1,25 @@
+{
+	"base": "/root",
+	"routes": [
+		{
+			"path": "/",
+			"redirectTo": "/page1"
+		},
+		{
+			"path": "/page1",
+			"handler": "routePage1"
+		},
+		{
+			"path": "/page2",
+			"handler": "routePage2"
+		},
+		{
+			"path": "/page3",
+			"handler": "routePage3"
+		},
+		{
+			"path": "/page4/name/:name/surname/:surname",
+			"handler": "routePage4"
+		}
+	]
+}

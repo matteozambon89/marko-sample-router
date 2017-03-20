@@ -6,10 +6,12 @@
 		"require: pace-js/themes/black/pace-theme-flat-top.css",
 		"require: pace-js",
 		"require-run: ./assets/js/pace.js",
+		// pageJS
+		"require: page",
 		// Components
 		"~/views/components/my-header/index.marko",
 		"~/views/components/my-footer/index.marko",
 		// Self - Components
-		"./components/root-app/index.marko"
+		"./components/root-page/index.marko"
 	]
 }

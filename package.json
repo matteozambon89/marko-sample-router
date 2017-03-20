@@ -24,7 +24,7 @@
     "lasso-image": "^1.0.11",
     "lasso-marko": "^2.2.2",
     "lasso-sass": "^1.1.9",
-    "marko": "^4.0.0-rc.20",
+    "marko": "^4.1.2",
     "minprops": "^1.0.0",
     "node-sass": "^4.5.0",
     "pace-js": "^1.0.2",

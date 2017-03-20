@@ -1,5 +1,10 @@
-<div class="page-1">
+<div>
 	<h1>Page 1</h1>
+	<div>
+		<div>
+			<strong>name: </strong> <input type="text" key="inputName" value=state.name on-blur('saveName') on-change('saveName') />
+		</div>
+	</div>
 	<div>
 		<button type="button" disabled>Page 1</button>
 		<button type="button" onClick("handlePage2Click")>Page 2</button>

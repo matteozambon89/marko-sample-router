@@ -2,29 +2,32 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-15 23:04:09
+* @Last Modified time: 2017-03-19 23:23:41
 */
 
-/* global $ */
+/* global */
 
 'use strict'
 
-const page = require('page')
+const appPage = require('~/views/app/page')
+const appRoot = require('~/views/app/root')
 
 module.exports = {
   onCreate(input) {
     console.log('root/components/root-route-page1 - onCreate')
     console.log(input)
 
+    this.state = {
+      'name': appRoot.name
+    }
+
     console.log(this.state)
     console.log('- - -')
   },
   onMount() {
-    const self = this
-    const el = this.el
-
     console.log('root/components/root-route-page1 - onMount')
-    console.log(el)
+    console.log(this)
+    console.log(this.el)
     console.log('- - -')
   },
   handlePage2Click(e) {
@@ -33,7 +36,7 @@ module.exports = {
     console.log(e)
     console.log('- - -')
 
-    page('/page2')
+    appPage.goTo('/page2')
 
     e.preventDefault()
   },
@@ -43,8 +46,18 @@ module.exports = {
     console.log(e)
     console.log('- - -')
 
-    page('/page3')
+    appPage.goTo('/page3')
 
     e.preventDefault()
+  },
+  saveName() {
+    console.log('access/components/access-route-page1 - saveName')
+    console.log(this)
+    console.log(this.getEl('inputName'))
+    console.log(this.getEl('inputName').value)
+    console.log('- - -')
+
+    const newValue = this.getEl('inputName').value
+    appRoot.name = newValue
   }
 }
