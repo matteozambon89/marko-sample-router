@@ -2,63 +2,57 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-19 23:23:07
+* @Last Modified time: 2017-03-22 18:28:42
 */
 
 /* global */
 
 'use strict'
 
-const appPage = require('~/views/app/page')
 const appRoot = require('~/views/app/root')
 
 module.exports = {
   onCreate(input) {
-    console.log('root/components/root-route-page2 - onCreate')
-    console.log(input)
+    console.log('[root-route-page2] onCreate')
 
     this.state = {
-      'name': appRoot.name || 'no-name',
-      'surname': appRoot.surname
+      'name': appRoot.name,
+      'surname': appRoot.surname,
+      'errorMessage': ''
     }
 
     console.log(this.state)
-    console.log('- - -')
   },
   onMount() {
-    console.log('root/components/root-route-page2 - onMount')
-    console.log(this)
-    console.log(this.el)
-    console.log('- - -')
+    console.log('[root-route-page2] onMount')
+
+    this.setState('name', appRoot.ctx.params.name)
+
+    if(!this.state.name && !this.state.surname) {
+      this.setState('errorMessage', 'Name and Surname are both required')
+    }
+    else if(!this.state.name) {
+      this.setState('errorMessage', 'Name is required')
+    }
+    else if(!this.state.surname) {
+      this.setState('errorMessage', 'Surname is required')
+    }
+    else {
+      this.setState('errorMessage', null)
+    }
   },
   handlePage1Click(e) {
+    console.log('[root-route-page2] handlePage1Click')
 
-    console.log('access/components/access-route-page2 - handlePage1Click')
-    console.log(e)
-    console.log('- - -')
-
-    appPage.goTo('/page1')
+    appRoot.goTo('page1')
 
     e.preventDefault()
   },
   handlePage3Click(e) {
+    console.log('[root-route-page2] handlePage3Click')
 
-    console.log('access/components/access-route-page2 - handlePage3Click')
-    console.log(e)
-    console.log('- - -')
-
-    appPage.goTo('/page3')
+    appRoot.goToInternalUrl('/page3')
 
     e.preventDefault()
-  },
-  saveSurname() {
-    console.log('access/components/access-route-page2 - saveSurname')
-    console.log(this)
-    console.log(this.getEl('inputSurname'))
-    console.log(this.getEl('inputSurname').value)
-    console.log('- - -')
-
-    const newValue = this.getEl('inputSurname').value
-    appRoot.surname = newValue
   }
 }

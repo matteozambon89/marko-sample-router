@@ -5,8 +5,11 @@
 			<strong>name:</strong> ${state.name}
 		</div>
 		<div>
-			<strong>surname:</strong> <input type="text" key="inputSurname" value=state.surname on-blur('saveSurname') on-change('saveSurname') />
+			<strong>surname:</strong> ${state.surname}
 		</div>
+		<if(state.errorMessage)>
+			<p>${state.errorMessage}</p>
+		</if>
 	</div>
 	<div>
 		<button type="button" onClick("handlePage1Click")>Page 1</button>

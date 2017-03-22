@@ -1,5 +1,6 @@
 {
 	"base": "/root",
+	"scope": "root",
 	"routes": [
 		{
 			"path": "/",
@@ -7,18 +8,22 @@
 		},
 		{
 			"path": "/page1",
+			"scope": "page1",
 			"handler": "routePage1"
 		},
 		{
 			"path": "/page2",
+			"scope": "page2",
 			"handler": "routePage2"
 		},
 		{
 			"path": "/page3",
+			"scope": "page3",
 			"handler": "routePage3"
 		},
 		{
 			"path": "/page4/name/:name/surname/:surname",
+			"scope": "page4NameSurname",
 			"handler": "routePage4"
 		}
 	]

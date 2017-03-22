@@ -2,29 +2,20 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-16 18:17:10
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-18 18:05:49
+* @Last Modified time: 2017-03-22 18:17:58
 */
 
 'use strict'
 
-const EventEmitter = require('events')
+const AppPage = require('../page/AppPage')
 
-class AppRoot extends EventEmitter {
+class AppRoot extends AppPage {
   constructor() {
     super()
 
-    this._currentPage = null
     this._name = ''
     this._surname = ''
-  }
-
-  set currentPage(newCurrentPage) {
-    this._currentPage = newCurrentPage
-    this._emitChange()
-  }
-
-  get currentPage() {
-    return this._currentPage
+    this._useDefaultName = false
   }
 
   set name(newName) {
@@ -45,10 +36,20 @@ class AppRoot extends EventEmitter {
     return this._surname
   }
 
+  set useDefaultName(newUseDefaultName) {
+    this._useDefaultName = newUseDefaultName
+    this._emitChange()
+  }
+
+  get useDefaultName() {
+    return this._useDefaultName
+  }
+
   _emitChange() {
     this.emit('change', {
       'name': this._name,
-      'surname': this._surname
+      'surname': this._surname,
+      'useDefaultName': this._useDefaultName
     })
   }
 }

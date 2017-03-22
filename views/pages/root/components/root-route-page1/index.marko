@@ -2,7 +2,20 @@
 	<h1>Page 1</h1>
 	<div>
 		<div>
-			<strong>name: </strong> <input type="text" key="inputName" value=state.name on-blur('saveName') on-change('saveName') />
+			<strong>use default name:</strong> <input type="checkbox" key="inputUseDefaultName" name="useDefaultName" checked=state.useDefaultName on-change('onFormChange') />
+		</div>
+		<if(!state.useDefaultName)>
+			<div>
+				<strong>name: </strong> <input type="text" key="inputName" name="name" value=state.name on-blur('onFormChange') on-change('onFormChange') />
+			</div>
+		</if>
+		<else>
+			<div>
+				<strong>name: </strong> ${state.defaultName}
+			</div>
+		</else>
+		<div>
+			<strong>surname: </strong> <input type="text" key="inputSurname" name="surname" value=state.surname on-blur('onFormChange') on-change('onFormChange') />
 		</div>
 	</div>
 	<div>

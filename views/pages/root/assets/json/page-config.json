@@ -1,0 +1,25 @@
+{
+	"root": {
+		"_base": "/root",
+		"_default": "page1",
+		"_key": "root-page",
+		"page1": {
+			"path": "/page1",
+			"key": "root-route-page1"
+		},
+		"page2": {
+			"path": "/page2",
+			"key": "root-route-page2"
+		},
+		"page2Name": {
+			"path": "/page2/:name",
+			"key": "root-route-page2"
+		},
+		"/page3": "/page1",
+		"notfound": {
+			"noRedirect": true,
+			"path": "*",
+			"key": "root-route-notfound"
+		}
+	}
+}

@@ -1,17 +1,11 @@
 <div key="root-app">
-	<if(state.currentPath === '/page1')>
-		<root-route-page1 key="root-route-page1"/>
+	<if(state.currentState === 'root.page1')>
+		<root-route-page1 key="root-route-page1" defaultName="Default" />
 	</if>
-	<else-if(state.currentPath === '/page2')>
+	<else-if(state.currentState === 'root.page2' || state.currentState === 'root.page2Name')>
 		<root-route-page2 key="root-route-page2"/>
 	</else-if>
-	<else-if(state.currentPath === '/page3')>
-		<root-route-page3 key="root-route-page3"/>
-	</else-if>
-	<else-if(state.currentPath === '/page4/name/:name/surname/:surname')>
-		<root-route-page4 key="root-route-page4"/>
-	</else-if>
-	<else-if(state.currentPath === 'notfound')>
+	<else-if(state.currentState === 'root.notfound')>
 		<root-route-notfound key="root-route-notfound"/>
 	</else-if>
 </div>
