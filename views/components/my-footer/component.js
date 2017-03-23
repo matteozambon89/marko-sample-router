@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-17 00:51:54
+* @Last Modified time: 2017-03-23 10:23:02
 */
 
 /* global */
@@ -11,17 +11,17 @@
 
 module.exports = {
   onCreate(input) {
-    console.log('components/my-footer - onCreate')
+    console.log('[my-footer] onCreate')
     console.log(input)
 
+    this.state = input
+
     console.log(this.state)
-    console.log('- - -')
   },
   onMount() {
     const el = this.el
 
-    console.log('components/my-footer - onMount')
+    console.log('[my-footer] onMount')
     console.log(el)
-    console.log('- - -')
   }
 }

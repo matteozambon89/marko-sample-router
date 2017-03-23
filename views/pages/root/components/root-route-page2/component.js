@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-22 18:28:42
+* @Last Modified time: 2017-03-23 10:24:03
 */
 
 /* global */
@@ -13,7 +13,7 @@ const appRoot = require('~/views/app/root')
 
 module.exports = {
   onCreate(input) {
-    console.log('[root-route-page2] onCreate')
+    console.log('[root/root-route-page2] onCreate')
 
     this.state = {
       'name': appRoot.name,
@@ -24,7 +24,7 @@ module.exports = {
     console.log(this.state)
   },
   onMount() {
-    console.log('[root-route-page2] onMount')
+    console.log('[root/root-route-page2] onMount')
 
     this.setState('name', appRoot.ctx.params.name)
 
@@ -42,14 +42,14 @@ module.exports = {
     }
   },
   handlePage1Click(e) {
-    console.log('[root-route-page2] handlePage1Click')
+    console.log('[root/root-route-page2] handlePage1Click')
 
     appRoot.goTo('page1')
 
     e.preventDefault()
   },
   handlePage3Click(e) {
-    console.log('[root-route-page2] handlePage3Click')
+    console.log('[root/root-route-page2] handlePage3Click')
 
     appRoot.goToInternalUrl('/page3')
 

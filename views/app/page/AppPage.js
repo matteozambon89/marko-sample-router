@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-18 17:26:56
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-22 17:34:48
+* @Last Modified time: 2017-03-23 10:35:15
 */
 
 'use strict'
@@ -10,6 +10,7 @@
 const EventEmitter = require('events')
 const page = require('page')
 const objectPath = require('object-path')
+const UrlAssembler = require('url-assembler')
 
 class AppPage extends EventEmitter {
   constructor() {
@@ -22,8 +23,8 @@ class AppPage extends EventEmitter {
     this._config = null
 
     this._stateRoot = null
-
     this._state = null
+    this._route = null
     this._ctx = {}
   }
   /**
@@ -73,71 +74,183 @@ class AppPage extends EventEmitter {
     return property
   }
   /**
-   * Extract State Root from State
+   * Get state root base property for specified stateRoot
    * @private
-   * @created 2017-03-21T18:24:38-0300
-   * @param   {string}                 state State (e.g. 'root.myState' or 'root')
-   * @return  {string}                       State Root (e.g. 'root' or null)
+   * @created 2017-03-22T17:01:39-0300
+   * @param   {string}                 stateRoot State root
+   * @return  {string}                           State root base
    */
-  _getStateRootFromState(state) {
-    console.log('[Page] _getStateRootFromState.{state}: ' + state)
+  _getStateRootBase(stateRoot) {
+    stateRoot = stateRoot || this._stateRoot
 
-    const stateRootMatches = this._state.match(/^[^\.]+/)
+    console.log('[Page] _getStatePath.{stateRoot}: ' + stateRoot)
 
-    console.log('[Page] _getStateRootFromState.{stateRootMatches}: ' + stateRootMatches)
+    // Get State Root Base
+    const stateRootBase = this._getConfig('_base', stateRoot)
 
-    if(!stateRootMatches) {
-      return null
+    console.log('[Page] _getStateRootBase.{stateRootBase}: ' + stateRootBase)
+
+    if(!stateRootBase) {
+      throw new Error('Cannot find State Root Base of State Root (' + stateRoot + ')')
     }
 
-    return stateRootMatches[0]
+    return stateRootBase
+  }
+  /**
+   * Get state root default state property for specified stateRoot
+   * @private
+   * @created 2017-03-22T17:01:39-0300
+   * @param   {string}                 stateRoot State root
+   * @return  {string}                           State root Default state
+   */
+  _getStateRootDefaultState(stateRoot) {
+    stateRoot = stateRoot || this._stateRoot
+
+    console.log('[Page] _getStatePath.{stateRoot}: ' + stateRoot)
+
+    // Get State Root DefaultState
+    const stateRootDefaultState = this._getConfig('_default', stateRoot)
+
+    console.log('[Page] _getStateRootDefaultState.{stateRootDefaultState}: ' + stateRootDefaultState)
+
+    if(!stateRootDefaultState) {
+      throw new Error('Cannot find State Root Default State of State Root (' + stateRoot + ')')
+    }
+
+    return stateRootDefaultState
+  }
+  /**
+   * Get state root routes for specified stateRoot
+   * @private
+   * @created 2017-03-22T17:01:39-0300
+   * @param   {string}                 stateRoot State root
+   * @return  {object}                           State root routes
+   */
+  _getStateRootRoutes(stateRoot) {
+    stateRoot = stateRoot || this._stateRoot
+
+    console.log('[Page] _getStatePath.{stateRoot}: ' + stateRoot)
+
+    const stateRootConfig = this._getConfig(undefined, stateRoot)
+
+    const routes = {}
+    for(const r in stateRootConfig) {
+      const route = stateRootConfig[r]
+
+      if(r.match(/^_/)) {
+        console.log('[Page] _getStateRootRoutes.{r}: ' + r + ' < SKIPPED >')
+
+        continue
+      }
+
+      routes[r] = route
+
+      console.log('[Page] _getStateRootRoutes.{r}: ' + r)
+    }
+
+    return routes
+  }
+  /**
+   * Get state property for specified stateRoot
+   * @private
+   * @created 2017-03-22T17:01:39-0300
+   * @param   {string}                 state     State
+   * @param   {string}                 stateRoot State root
+   * @return  {object}                           State
+   */
+  _getStateRoute(state, stateRoot) {
+    stateRoot = stateRoot || this._stateRoot
+
+    console.log('[Page] _getStatePath.{state}: ' + state)
+    console.log('[Page] _getStatePath.{stateRoot}: ' + stateRoot)
+
+    // Get State Route
+    const stateRoute = this._getConfig(state, stateRoot)
+
+    console.log('[Page] _getStateRoute.{stateRoute}: ' + stateRoute)
+
+    if(!stateRoute) {
+      throw new Error('Cannot find State (' + state + ') on State Root (' + stateRoot + ')')
+    }
+
+    return stateRoute
+  }
+  /**
+   * Get state path property for specified stateRoot
+   * @private
+   * @created 2017-03-22T17:01:39-0300
+   * @param   {string}                 state     State
+   * @param   {string}                 stateRoot State root
+   * @return  {string}                           State path
+   */
+  _getStatePath(state, stateRoot) {
+    stateRoot = stateRoot || this._stateRoot
+
+    console.log('[Page] _getStatePath.{state}: ' + state)
+    console.log('[Page] _getStatePath.{stateRoot}: ' + stateRoot)
+
+    // Get Path of State
+    const statePath = this._getConfig(state + '.path', stateRoot)
+
+    console.log('[Page] _getStatePath.{statePath}: ' + statePath)
+
+    if(!statePath) {
+      throw new Error('Cannot find State (' + state + ') Path on State Root (' + stateRoot + ')')
+    }
+
+    return statePath
   }
   /**
    * Get path from state, params and stateRoot
    * @private
    * @created 2017-03-22T17:01:39-0300
    * @param   {string}                 state     State
-   * @param   {object}                 params    State parameters
+   * @param   {object}                 params    Url parameters
    * @param   {string}                 stateRoot State root
+   * @param   {object}                 queries   Query string parameters
    * @return  {string}                           Url path computed
    */
-  _getPathUrl(state, params, stateRoot) {
-    console.log('[Page] _getPathUrl.{state}: ' + state)
-    console.log('[Page] _getPathUrl.{params}: ' + JSON.stringify(params))
-    console.log('[Page] _getPathUrl.{stateRoot}: ' + stateRoot)
+  _getStatePathUrl(state, params, stateRoot, queries) {
+    stateRoot = stateRoot || this._stateRoot
+
+    console.log('[Page] _getStatePathUrl.{state}: ' + state)
+    console.log('[Page] _getStatePathUrl.{params}: ' + JSON.stringify(params))
+    console.log('[Page] _getStatePathUrl.{stateRoot}: ' + stateRoot)
+    console.log('[Page] _getStatePathUrl.{queries}: ' + JSON.stringify(queries))
 
     // Get Path of State
-    let url = this._getConfig(state + '.path', stateRoot)
+    const url = this._getStatePath(state, stateRoot)
 
-    if(typeof params === 'object') {
-      for(const p in params) {
-        url = url.replace(':' + p, params[p])
-      }
+    // Initialize UrlAssembler instance
+    let urlAssembler = UrlAssembler()
+
+    // Check if prefix is needed
+    if(stateRoot !== this._stateRoot) {
+      const base = this._getStateRootBase(stateRoot)
+
+      urlAssembler = urlAssembler.prefix(base)
     }
 
-    if(stateRoot && stateRoot !== this._stateRoot) {
-      const base = this._getConfig('_base', stateRoot)
+    // Add template
+    urlAssembler = urlAssembler.template(url)
 
-      url = base + url
+    // Compute params
+    if(params) {
+      urlAssembler = urlAssembler.param(params)
+    }
+    // Compute query strings
+    if(queries) {
+      urlAssembler = urlAssembler.query(queries)
     }
 
-    console.log('[Page] _getPathUrl.{url}: ' + url)
+    // Get assembled url
+    const urlAssembled = urlAssembler.toString()
 
-    return url
+    console.log('[Page] _getStatePathUrl.{urlAssembled}: ' + urlAssembled)
+
+    return urlAssembled
   }
-  /**
-   * Define State Root from current State
-   * @private
-   * @created 2017-03-21T18:25:44-0300
-   * @return  {string}                 State Root
-   */
-  _defStateRoot() {
-    console.log('[Page] _defStateRoot.{this._state}: ' + this._state)
 
-    this._stateRoot = this._getStateRootFromState(this._state)
-
-    console.log('[Page] _defStateRoot.{this._state}: ' + this._stateRoot)
-  }
   /**
    * Define Page Base based on '_base' key in State Root Config
    * @private
@@ -146,9 +259,7 @@ class AppPage extends EventEmitter {
    */
   _defPageBase() {
     // {this.stateRoot}._base
-    const base = this._getConfig('_base')
-
-    console.log('[Page] _defPageBase.{base}: ' + base)
+    const base = this._getStateRootBase()
 
     // Set Page Base
     page.base(base)
@@ -161,14 +272,12 @@ class AppPage extends EventEmitter {
    */
   _defPageDefault() {
     // {this._stateRoot}._default
-    this._stateDefault = this._getConfig('_default')
+    const stateDefault = this._getStateRootDefaultState()
 
-    // {this._stateRoot}.{this._stateDefault}.path
-    const stateDefaultPath = this._getConfig(this._stateDefault + '.path')
+    // {this._stateRoot}.{stateDefault}.path
+    const stateDefaultPath = this._getStatePath(stateDefault)
 
-    console.log('[Page] _defPageDefault.{stateDefaultPath}: ' + stateDefaultPath)
-
-    // redirect / to {this._stateRoot}.{this._stateDefault}.path
+    // redirect / to {this._stateRoot}.{stateDefault}.path
     page('/', stateDefaultPath)
   }
   /**
@@ -178,34 +287,27 @@ class AppPage extends EventEmitter {
    * @return  {none}                 no-return
    */
   _defPageRoutes() {
-    // {this._stateRoot}
-    const stateRootConfig = this._getConfig()
-
-    console.log('[Page] _defPageRoutes.{stateRootConfig}: ')
-    console.log(stateRootConfig)
+    const stateRootRoutes = this._getStateRootRoutes()
 
     // For each public property of State Root Config
-    for(const r in stateRootConfig) {
+    for(const routeState in stateRootRoutes) {
       // Get property as route
-      const route = stateRootConfig[r]
+      const route = stateRootRoutes[routeState]
 
-      // Ensure isn't public
-      if(r.match(/^_/)) {
-        console.log('[Page] _defPageRoutes.{r}: ' + r + ' IGNORE')
-
-        continue
-      }
+      console.log('[Page] _defPageRoutes.{routeState}: ' + routeState)
 
       // If {route} is string means it's a redirect
       if(typeof route === 'string') {
+        console.log('[Page] _defPageRoutes.{route}: ' + route + ' < IS REDIRECT >')
+
         // Setup page redirect from {r} to {route} ({r} and {route} must be paths of the same State Root)
-        page(r, route)
+        page(routeState, route)
 
         continue
       }
 
       // Define Page with {r} as state and {route}
-      this._defPageRoute(r, route)
+      this._defPageRoute(routeState, route)
     }
   }
   /**
@@ -227,21 +329,36 @@ class AppPage extends EventEmitter {
       console.log('[Page] onMatch.{ctx}: ')
       console.log(ctx)
 
+      // Set current state root {this._stateRoot}
+      const stateRoot = this._stateRoot
       // Set current state {this._state}
-      const from = this._state
-      // Set next state {this._stateRoute}.{state}
-      const to = this._stateRoot + '.' + state
+      const fromState = this._state
+      // Set current route {this._route}
+      const fromRoute = this._route
+      // Set next state {state}
+      const toState = state
+      // Set next route {route}
+      const toRoute = route
 
-      // Set state as {to}
-      this._state = to
       // Set ctx as {ctx}
       this._ctx = ctx
+      // Set state as {toState}
+      this._state = toState
+      // Set state as {toRoute}
+      this._route = toRoute
 
       // Emit event state.change
       this._emitChangeState({
-        'from': from,
-        'to': to,
-        'ctx': ctx
+        'ctx': ctx,
+        'stateRoot': stateRoot,
+        'from': {
+          'state': fromState,
+          'route': fromRoute
+        },
+        'to': {
+          'state': toState,
+          'route': toRoute
+        }
       })
     })
   }
@@ -273,6 +390,26 @@ class AppPage extends EventEmitter {
   }
 
   /**
+   * Set current state root
+   * @created 2017-03-21T18:57:27-0300
+   * @param   {string}                 newStateRoot State Root to be set
+   * @return  {none}                                no-return
+   */
+  set stateRoot(newStateRoot) {
+    console.log('[Page] set stateRoot.{this._stateRoot}: ' + this._stateRoot)
+    console.log('[Page] set stateRoot.{newStateRoot}: ' + newStateRoot)
+
+    this._stateRoot = newStateRoot
+  }
+  /**
+   * Get current state root
+   * @created 2017-03-21T18:58:32-0300
+   * @return  {string}                 Current state root
+   */
+  get stateRoot() {
+    return this._stateRoot
+  }
+  /**
    * Set current state
    * @created 2017-03-21T18:57:27-0300
    * @param   {string}                 newState State to be set
@@ -283,6 +420,7 @@ class AppPage extends EventEmitter {
     console.log('[Page] set state.{newState}: ' + newState)
 
     this._state = newState
+    this._route = this._getStateRoute(newState)
   }
   /**
    * Get current state
@@ -304,16 +442,22 @@ class AppPage extends EventEmitter {
   /**
    * Handle onMount from Marko Component
    * @created 2017-03-21T19:00:34-0300
-   * @param   {string}                 state Current Root State
-   * @return  {none}                         no-return
+   * @param   {string}                 stateRoot Current Root State
+   * @param   {string}                 state     Current State
+   * @return  {none}                             no-return
    */
-  handleOnMount(state) {
+  handleOnMount(stateRoot, state) {
+    console.log('[Page] handleOnMount.{stateRoot}: ' + stateRoot)
     console.log('[Page] handleOnMount.{state}: ' + state)
 
+    // Set current stateRoot
+    this._stateRoot = stateRoot
     // Set current state
-    this._state = state
+    if(state) {
+      this.state = state
+    }
     // Initialize Page
-    this._initPage()
+    this._pageInit()
   }
   /**
    * Go To State
@@ -324,23 +468,21 @@ class AppPage extends EventEmitter {
    * @return  {none}                          no-return
    */
   goTo(state, params, stateRoot) {
+    stateRoot = stateRoot || this._stateRoot
+
     console.log('[Page] goTo.{state}: ' + state)
     console.log('[Page] goTo.{params}: ' + JSON.stringify(params))
     console.log('[Page] goTo.{stateRoot}: ' + stateRoot)
 
-    if(stateRoot && stateRoot !== this._stateRoot) {
+    const url = this._getStatePathUrl(state, params, stateRoot)
+
+    if(stateRoot !== this._stateRoot) {
       // Set Page Base to new State Root
-
-      const url = this._getPathUrl(state, params, stateRoot)
-
-      console.log('[Page] goTo.{stateRoot}: ' + stateRoot)
 
       this.goToExternalUrl(url)
 
       return
     }
-
-    const url = this._getPathUrl(state, params, this._stateRoot)
 
     // Redirect to Path
     this.goToInternalUrl(url)
@@ -356,12 +498,10 @@ class AppPage extends EventEmitter {
    * @created 2017-03-21T19:11:02-0300
    * @return  {none}                 no-return
    */
-  _initPage() {
-    console.log('[Page] _initPage.{this}: ')
+  _pageInit() {
+    console.log('[Page] _pageInit.{this}: ')
     console.log(this)
 
-    // Define State Root
-    this._defStateRoot()
     // Define Page Base
     this._defPageBase()
     // Define Page Default
@@ -373,7 +513,10 @@ class AppPage extends EventEmitter {
     page()
 
     // Emit Page has been Initialized
-    this._emitPageInit()
+    this._emitPageInit({
+      'state': this._state,
+      'stateRoot': this._stateRoot
+    })
   }
 }
 

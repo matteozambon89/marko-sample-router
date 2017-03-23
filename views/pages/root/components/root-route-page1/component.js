@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-22 18:29:01
+* @Last Modified time: 2017-03-23 10:23:55
 */
 
 /* global */
@@ -13,7 +13,7 @@ const appRoot = require('~/views/app/root')
 
 module.exports = {
   onCreate(input) {
-    console.log('[root-route-page1] onCreate')
+    console.log('[root/root-route-page1] onCreate')
 
     this.state = {
       'name': appRoot.name,
@@ -23,10 +23,10 @@ module.exports = {
     }
   },
   onMount() {
-    console.log('[root-route-page1] onMount')
+    console.log('[root/root-route-page1] onMount')
   },
   handlePage2Click(e) {
-    console.log('[root-route-page1] handlePage2Click')
+    console.log('[root/root-route-page1] handlePage2Click')
 
     const params = {
       'name': this.state.name
@@ -41,14 +41,14 @@ module.exports = {
     e.preventDefault()
   },
   handlePage3Click(e) {
-    console.log('[root-route-page1] handlePage3Click')
+    console.log('[root/root-route-page1] handlePage3Click')
 
     appRoot.goToInternalUrl('/page3')
 
     e.preventDefault()
   },
   onFormChange(e) {
-    console.log('[root-route-page1] onFormChange')
+    console.log('[root/root-route-page1] onFormChange')
 
     if(e.target.type === 'text') {
       const newValue = e.target.value

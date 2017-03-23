@@ -5,21 +5,34 @@
 		"_key": "root-page",
 		"page1": {
 			"path": "/page1",
-			"key": "root-route-page1"
+			"component": {
+				"key": "root-route-page1",
+				"params": {}
+			}
 		},
 		"page2": {
 			"path": "/page2",
-			"key": "root-route-page2"
+			"component": {
+				"key": "root-route-page2",
+				"params": {}
+			}
 		},
 		"page2Name": {
 			"path": "/page2/:name",
-			"key": "root-route-page2"
+			"component": {
+				"state": "page2",
+				"key": "root-route-page2",
+				"params": {}
+			}
 		},
 		"/page3": "/page1",
 		"notfound": {
 			"noRedirect": true,
 			"path": "*",
-			"key": "root-route-notfound"
+			"component": {
+				"key": "root-route-notfound",
+				"params": {}
+			}
 		}
 	}
 }

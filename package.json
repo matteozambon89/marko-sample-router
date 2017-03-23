@@ -30,7 +30,8 @@
     "object-path": "^0.11.4",
     "pace-js": "^1.0.2",
     "page": "^1.7.1",
-    "require-self-ref": "^2.0.1"
+    "require-self-ref": "^2.0.1",
+    "url-assembler": "^1.2.5"
   },
   "devDependencies": {
     "eslint": "^2.4",
