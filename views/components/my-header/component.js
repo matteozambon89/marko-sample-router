@@ -2,10 +2,8 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-23 10:23:22
+* @Last Modified time: 2017-03-23 19:07:48
 */
-
-/* global $ */
 
 'use strict'
 
@@ -14,7 +12,10 @@ module.exports = {
     console.log('[my-header] onCreate')
     console.log(input)
 
-    this.state = input
+    this.state = {
+      'isRootSelected': (input.selected === 'root'),
+      'isAuthSelected': (input.selected === 'auth')
+    }
 
     console.log(this.state)
   },
@@ -23,5 +24,11 @@ module.exports = {
 
     console.log('[my-header] onMount')
     console.log(el)
+  },
+  onRootClick() {
+    location.href = '/root'
+  },
+  onAuthClick() {
+    location.href = '/auth'
   }
 }

@@ -1,0 +1,29 @@
+{
+	"auth": {
+		"_base": "/auth",
+		"_default": "login",
+		"_key": "auth-page",
+		"login": {
+			"path": "/login",
+			"component": {
+				"key": "auth-route-login",
+				"params": {}
+			}
+		},
+		"register": {
+			"path": "/register",
+			"component": {
+				"key": "auth-route-register",
+				"params": {}
+			}
+		},
+		"notfound": {
+			"noRedirect": true,
+			"path": "*",
+			"component": {
+				"key": "auth-route-notfound",
+				"params": {}
+			}
+		}
+	}
+}

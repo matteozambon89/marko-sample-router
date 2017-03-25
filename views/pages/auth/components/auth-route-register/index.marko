@@ -1,0 +1,27 @@
+<div>
+	<h1>Register</h1>
+	<div>
+		<div>
+			<label for="email">Email</label>
+			<input type="email" key="inputEmail" name="email" value=state.email on-blur('onFormChange') on-change('onFormChange') />
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" key="inputPassword" name="password" value=state.password on-blur('onFormChange') on-change('onFormChange') />
+		</div>
+		<div>
+			<label for="firstName">Name</label>
+			<input type="text" key="inputFirstName" name="firstName" value=state.firstName on-blur('onFormChange') on-change('onFormChange') />
+		</div>
+		<div>
+			<label for="lastName">Surame</label>
+			<input type="text" key="inputLastName" name="lastName" value=state.lastName on-blur('onFormChange') on-change('onFormChange') />
+		</div>
+	</div>
+	<div>
+		<button type="button" onClick("onSubmitClick")>Register</button>
+	</div>
+	<div>
+		You already have an account? <a onClick("onLoginClick")>Login</a>
+	</div>
+</div>

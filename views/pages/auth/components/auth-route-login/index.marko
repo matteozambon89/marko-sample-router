@@ -1,0 +1,19 @@
+<div key='auth-route-login'>
+	<h1>Login</h1>
+	<div>
+		<div>
+			<label for="email">Email</label>
+			<input type="email" key="inputEmail" name="email" value=state.email on-blur('onFormChange') on-change('onFormChange') />
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" key="inputPassword" name="password" value=state.password on-blur('onFormChange') on-change('onFormChange') />
+		</div>
+	</div>
+	<div>
+		<button type="button" onClick("onSubmitClick")>Login</button>
+	</div>
+	<div>
+		You don't have an account? <a onClick("onRegisterClick")>Register</a>
+	</div>
+</div>

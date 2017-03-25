@@ -1,6 +1,7 @@
 {
 	"tags-dir": [
 		"./components",
-		"./pages/root/components"
+		"./pages/root/components",
+		"./pages/auth/components"
 	]
 }
