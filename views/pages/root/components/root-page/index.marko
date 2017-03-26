@@ -1,11 +1,14 @@
-<div key="root-app">
-	<if(state.currentState === 'page1')>
-		<root-route-page1 key="root-route-page1" defaultName="Default" />
+<div key="root-page">
+	<if(!state.currentState)>
+		$ const view = require('../' + state.rootState + '-route-loading/index.marko')
+		$ const componentParams = state.componentParams
+
+		<include(view, state.componentParams) />
 	</if>
-	<else-if(state.currentState === 'page2' || state.currentState === 'page2Name')>
-		<root-route-page2 key="root-route-page2"/>
-	</else-if>
-	<else-if(state.currentState === 'notfound')>
-		<root-route-notfound key="root-route-notfound"/>
-	</else-if>
+	<else>
+		$ const view = require('../' + state.rootState + '-route-' + state.currentState + '/index.marko')
+		$ const componentParams = state.componentParams
+
+		<include(view, state.componentParams) />
+	</else>
 </div>

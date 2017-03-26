@@ -1,3 +1,8 @@
 {
-	"dependencies": []
+	"dependencies": [
+		"../root-route-page1/index.marko",
+		"../root-route-page2/index.marko",
+		"../root-route-loading/index.marko",
+		"../root-route-notfound/index.marko"
+	]
 }

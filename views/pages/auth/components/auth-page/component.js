@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-25 00:13:43
+* @Last Modified time: 2017-03-25 23:08:02
 */
 
 'use strict'
@@ -15,9 +15,7 @@ module.exports = {
     console.log('[auth/auth-page] onCreate')
 
     this.state = {
-      'rootState': input.rootState,
-      'currentState': input.currentState,
-      'currentComponent': null
+      'rootState': input.rootState
     }
   },
   onMount() {
@@ -28,22 +26,10 @@ module.exports = {
         console.log('[auth/auth-page] appAuth on(state.change).{args}: ')
         console.log(args)
 
-        this.setState('currentState', args.to.state)
-
-        const el = this.getEl('auth-app')
-
-        setTimeout(() => {
-          const view = require('../' + this.state.rootState + '-route-' + this.state.currentState + '/index.marko')
-
-          view.render({}, (err, result) => {
-            if(err) {
-              console.error(err)
-
-              return
-            }
-
-            result.appendTo(el)
-          })
+        this.setState({
+          'currentState': args.to.route.component.state || args.to.state,
+          'componentKey': args.to.route.component.key,
+          'componentParams': args.to.route.component.params
         })
       })
 
@@ -55,6 +41,10 @@ module.exports = {
   },
   onUpdate() {
     console.log('[auth/auth-page] onUpdate')
+
+    console.log(this)
+
+    window.authPage = this
   },
   onDestroy() {
     console.log('[auth/auth-page] onDestroy')

@@ -27,7 +27,6 @@
 		},
 		"/page3": "/page1",
 		"notfound": {
-			"noRedirect": true,
 			"path": "*",
 			"component": {
 				"key": "root-route-notfound",

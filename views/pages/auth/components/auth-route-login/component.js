@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-25 00:06:29
+* @Last Modified time: 2017-03-25 22:17:51
 */
 
 /* global */
@@ -16,6 +16,7 @@ module.exports = {
     console.log('[auth/auth-route-login] onCreate')
 
     this.state = {
+      'key': input.key,
       'email': appAuth.email,
       'password': appAuth.password
     }

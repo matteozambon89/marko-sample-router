@@ -2,7 +2,7 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-23 10:23:36
+* @Last Modified time: 2017-03-25 22:13:40
 */
 
 'use strict'
@@ -15,8 +15,7 @@ module.exports = {
     console.log('[root/root-page] onCreate')
 
     this.state = {
-      'rootState': input.rootState,
-      'currentState': input.currentState
+      'rootState': input.rootState
     }
   },
   onMount() {
@@ -27,16 +26,21 @@ module.exports = {
         console.log('[root/root-page] appRoot on(state.change).{args}: ')
         console.log(args)
 
-        this.setState('currentState', args.to.state)
+        this.setState('currentState', args.to.route.component.state || args.to.state)
+        this.setState('componentKey', args.to.route.component.key)
+        this.setState('componentParams', args.to.route.component.params)
       })
 
     appRoot.config = pageConfig
     appRoot.handleOnMount(this.state.rootState, this.state.currentState)
   },
-  onRender() {
+  onRender(out) {
     console.log('[root/root-page] onRender')
   },
   onUpdate() {
     console.log('[root/root-page] onUpdate')
+  },
+  onDestroy() {
+    console.log('[root/root-page] onDestroy')
   }
 }

@@ -1,2 +1,14 @@
-<div key="auth-app">
+<div key="auth-page">
+	<if(!state.currentState)>
+		$ const view = require('../' + state.rootState + '-route-loading/index.marko')
+		$ const componentParams = state.componentParams
+
+		<include(view, state.componentParams) />
+	</if>
+	<else>
+		$ const view = require('../' + state.rootState + '-route-' + state.currentState + '/index.marko')
+		$ const componentParams = state.componentParams
+
+		<include(view, state.componentParams) />
+	</else>
 </div>

@@ -1,1 +1,3 @@
-{}
+{
+	"@rootState": "string"
+}
