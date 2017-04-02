@@ -2,10 +2,12 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-23 19:07:48
+* @Last Modified time: 2017-04-01 00:06:20
 */
 
 'use strict'
+
+const markoRouter = require('marko-router')
 
 module.exports = {
   onCreate(input) {
@@ -26,9 +28,9 @@ module.exports = {
     console.log(el)
   },
   onRootClick() {
-    location.href = '/root'
+    markoRouter.goToInternalUrl('/root')
   },
   onAuthClick() {
-    location.href = '/auth'
+    markoRouter.goToInternalUrl('/auth')
   }
 }

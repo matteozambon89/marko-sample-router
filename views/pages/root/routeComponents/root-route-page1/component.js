@@ -2,13 +2,14 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-23 10:23:55
+* @Last Modified time: 2017-04-01 00:00:42
 */
 
 /* global */
 
 'use strict'
 
+const markoRouter = require('marko-router')
 const appRoot = require('~/views/app/root')
 
 module.exports = {
@@ -36,14 +37,14 @@ module.exports = {
       params.name = this.state.defaultName
     }
 
-    appRoot.goTo('page2Name', params)
+    markoRouter.goTo('page2Name', params)
 
     e.preventDefault()
   },
   handlePage3Click(e) {
     console.log('[root/root-route-page1] handlePage3Click')
 
-    appRoot.goToInternalUrl('/page3')
+    markoRouter.goToInternalUrl('/page3')
 
     e.preventDefault()
   },

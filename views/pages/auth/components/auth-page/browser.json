@@ -1,8 +1,0 @@
-{
-	"dependencies": [
-		"../auth-route-login/index.marko",
-		"../auth-route-register/index.marko",
-		"../auth-route-notfound/index.marko",
-		"../auth-route-loading/index.marko"
-	]
-}

@@ -1,7 +1,7 @@
 {
-  "name": "tui-example",
+  "name": "marko-sample-router",
   "version": "1.0.0",
-  "description": "TUI Example (proof Express + Marko + Lasso with some sort of effortless routing and async page load)",
+  "description": "Marko sample with marko-router approach",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,17 +19,16 @@
     "bootstrap": "^3.3.7",
     "browser-refresh-taglib": "^1.1.0",
     "express": "^5.0.0-alpha.3",
-    "jquery": "^3.1.1",
     "lasso": "^2.11.3",
     "lasso-image": "^1.0.11",
     "lasso-marko": "^2.2.2",
     "lasso-sass": "^1.1.9",
-    "marko": "^4.1.2",
+    "marko": "^4.2.0",
+    "marko-router": "^1.0.0",
     "minprops": "^1.0.0",
     "node-sass": "^4.5.0",
     "object-path": "^0.11.4",
     "pace-js": "^1.0.2",
-    "page": "^1.7.1",
     "require-self-ref": "^2.0.1",
     "url-assembler": "^1.2.5"
   },

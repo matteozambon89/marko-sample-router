@@ -2,13 +2,14 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-15 22:57:27
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-23 10:24:03
+* @Last Modified time: 2017-04-01 00:02:50
 */
 
 /* global */
 
 'use strict'
 
+const markoRouter = require('marko-router')
 const appRoot = require('~/views/app/root')
 
 module.exports = {
@@ -26,7 +27,7 @@ module.exports = {
   onMount() {
     console.log('[root/root-route-page2] onMount')
 
-    this.setState('name', appRoot.ctx.params.name)
+    this.setState('name', markoRouter.ctx.params.name)
 
     if(!this.state.name && !this.state.surname) {
       this.setState('errorMessage', 'Name and Surname are both required')
@@ -44,14 +45,14 @@ module.exports = {
   handlePage1Click(e) {
     console.log('[root/root-route-page2] handlePage1Click')
 
-    appRoot.goTo('page1')
+    markoRouter.goTo('page1')
 
     e.preventDefault()
   },
   handlePage3Click(e) {
     console.log('[root/root-route-page2] handlePage3Click')
 
-    appRoot.goToInternalUrl('/page3')
+    markoRouter.goToInternalUrl('/page3')
 
     e.preventDefault()
   }

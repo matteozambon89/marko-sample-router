@@ -1,8 +1,32 @@
 {
+	"auth": {
+		"_base": "/auth",
+		"_default": "login",
+		"login": {
+			"path": "/login",
+			"component": {
+				"key": "auth-route-login",
+				"params": {}
+			}
+		},
+		"register": {
+			"path": "/register",
+			"component": {
+				"key": "auth-route-register",
+				"params": {}
+			}
+		},
+		"notfound": {
+			"path": "*",
+			"component": {
+				"key": "auth-route-notfound",
+				"params": {}
+			}
+		}
+	},
 	"root": {
 		"_base": "/root",
 		"_default": "page1",
-		"_key": "root-page",
 		"page1": {
 			"path": "/page1",
 			"component": {

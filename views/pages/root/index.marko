@@ -9,7 +9,7 @@
 	<title>
 		Root
 	</title>
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 	<meta name="viewport" content="width=device-width" />
 
 	<lasso-head />
@@ -17,9 +17,13 @@
 
 <body>
 
-	<my-header selected='root' />
+	<my-header selected="root" />
 
-	<root-page rootState='root' />
+	<marko-router
+		debug="true"
+		rootState="root"
+		componentPath="../../pages/root/routeComponents/"
+	/>
 
 	<my-footer />
 

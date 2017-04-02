@@ -2,14 +2,14 @@
 * @Author: Matteo Zambon
 * @Date:   2017-03-16 18:17:10
 * @Last Modified by:   Matteo Zambon
-* @Last Modified time: 2017-03-23 18:50:12
+* @Last Modified time: 2017-03-31 00:12:39
 */
 
 'use strict'
 
-const AppPage = require('../page/AppPage')
+const EventEmitter = require('events')
 
-class AppAuth extends AppPage {
+class AppAuth extends EventEmitter {
   constructor() {
     super()
 
